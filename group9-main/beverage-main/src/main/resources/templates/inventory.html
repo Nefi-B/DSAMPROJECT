@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Inventory Management</title>
+  <meta charset="UTF-8">
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet">
+  <script crossorigin="anonymous" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script crossorigin="anonymous" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script crossorigin="anonymous" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}">...</div>
+
+<h1>Inventory Management</h1>
+
+<h2>Add a New Bottle</h2>
+<form th:action="@{/inventory/createBottle}" th:object="${bottle}" method="POST">
+  <div th:if="${validationErrors}" class="alert alert-danger">
+    <ul>
+      <li th:each="error : ${validationErrors}" th:text="${error.defaultMessage}"></li>
+    </ul>
+  </div>
+
+  <div>
+    <input name="name" placeholder="name" type="text" th:field="*{name}"/><br>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></div>
+  </div>
+
+
+  <input name="pictureUrl" placeholder="Picture URL" type="text" th:field="*{bottlePic}"/><br>
+  <input name="volume" placeholder="Volume" type="number" step="0.1" th:field="*{volume}"/><br>
+  <label>Is Alcoholic</label><input name="isAlcoholic" type="checkbox" th:field="*{isAlcoholic}"/><br>
+  <input name="volumePercent" placeholder="Volume Percent" type="number" step="0.1" th:field="*{volumePercent}"/><br>
+  <input name="price" placeholder="Price" type="number" step="0.01" th:field="*{price}"/><br>
+  <input name="supplier" placeholder="Supplier" type="text" th:field="*{supplier}"/><br>
+  <input name="stock" placeholder="Stock" type="number" th:field="*{inStock}"/><br>
+  <button type="submit">Add Bottle</button>
+</form>
+
+<h2>Add a New Crate</h2>
+<form th:action="@{/inventory/createCrate}" th:object="${crate}" method="POST">
+  <input name="crateName" placeholder="name" type="text" th:field="*{name}"/><br>
+  <input name="cratePictureUrl" placeholder="Picture URL" type="text" th:field="*{cratePic}"/><br>
+  <input name="crateNoOfBottles" placeholder="Number of Bottles" type="number" th:field="*{noOfBottles}"/><br>
+  <input name="cratePrice" placeholder="Price" type="number" step="0.01" th:field="*{price}"/><br>
+  <input name="crateStock" placeholder="Stock" type="number" th:field="*{cratesInStock}"/><br>
+  <button type="submit">Add Crate</button>
+</form>
+
+<div th:replace="~{fragments/footer :: footer}">...</div>
+
+</body>
+</html>
